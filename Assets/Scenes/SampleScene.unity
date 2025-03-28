@@ -369,8 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5080cb0b9b90bd419a2b9d734bbbd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 50
-  y: 50
+  x: 8
+  y: 8
+  comboTextPrefab: {fileID: 0}
   tile: {fileID: 1174617950624535364, guid: 35e516fd8ad9e8d4f8269d9b65ca0598, type: 3}
 --- !u!4 &954253254
 Transform:
