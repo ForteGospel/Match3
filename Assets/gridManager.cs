@@ -65,22 +65,7 @@ public class gridManager : MonoBehaviour
         {
             for (int j = 0; j < y; j++)
             {
-                TileController current = grid[i, j];
-                HashSet<TileController> possibleGems = new HashSet<TileController>();
-                possibleGems.Add(current);
-
-                //left Check
-                if (i != 0 && current.GemType == grid[i - 1, j].GemType)
-                    possibleGems.Add(grid[i - 1, j]);
-                //right check
-                if (i != x - 1 && current.GemType == grid[i + 1, j].GemType)
-                    possibleGems.Add(grid[i + 1, j]);
-                //down Check
-                if (j != 0 && current.GemType == grid[i, j - 1].GemType)
-                    possibleGems.Add(grid[i, j - 1]);
-                //up Check
-                if (j != y - 1 && current.GemType == grid[i, j + 1].GemType)
-                    possibleGems.Add(grid[i, j + 1]);
+                HashSet<TileController> possibleGems = crossCheck(i, j);
 
                 if (possibleGems.Count >= 3)
                 {
@@ -94,6 +79,48 @@ public class gridManager : MonoBehaviour
         }
 
         return matchedTiles;
+    }
+
+    HashSet<TileController> crossCheck(int i, int j)
+    {
+        TileController current = grid[i, j];
+        HashSet<TileController> possibleGems = new HashSet<TileController>();
+        possibleGems.Add(current);
+
+        //left Check
+        if (i != 0 && current.GemType == grid[i - 1, j].GemType)
+            possibleGems.Add(grid[i - 1, j]);
+        //right check
+        if (i != x - 1 && current.GemType == grid[i + 1, j].GemType)
+            possibleGems.Add(grid[i + 1, j]);
+        //down Check
+        if (j != 0 && current.GemType == grid[i, j - 1].GemType)
+            possibleGems.Add(grid[i, j - 1]);
+        //up Check
+        if (j != y - 1 && current.GemType == grid[i, j + 1].GemType)
+            possibleGems.Add(grid[i, j + 1]);
+
+        return possibleGems;
+    }
+
+    bool testCrossCheck(TileType type, int i, int j)
+    {
+        HashSet<TileController> possibleGems = new HashSet<TileController>();
+
+        //left Check
+        if (i != 0 && type == grid[i - 1, j].GemType)
+            possibleGems.Add(grid[i - 1, j]);
+        //right check
+        if (i != x - 1 && type == grid[i + 1, j].GemType)
+            possibleGems.Add(grid[i + 1, j]);
+        //down Check
+        if (j != 0 && type == grid[i, j - 1].GemType)
+            possibleGems.Add(grid[i, j - 1]);
+        //up Check
+        if (j != y - 1 && type == grid[i, j + 1].GemType)
+            possibleGems.Add(grid[i, j + 1]);
+        
+        return possibleGems.Count >= 2;
     }
 
     void ClearMatches(HashSet<TileController> matches)
@@ -143,7 +170,7 @@ public class gridManager : MonoBehaviour
                             grid[i, j].x = i;
                             grid[i, j].y = j;
                             //grid[i, j].transform.position = new Vector3(i, j, 0);
-                            grid[i, j].transform.DOMove(new Vector3(i, j, 0), 0.2f).SetEase(Ease.OutQuad);
+                            grid[i, j].transform.DOMove(new Vector3(i, j, 0), UnityEngine.Random.Range(0.5f,0.2f)).SetEase(Ease.OutQuad);
                             break;
                         }
                     }
@@ -237,7 +264,7 @@ public class gridManager : MonoBehaviour
         }
         else
         {
-            if (AreSwappable(selectedTile, tile))
+            if (AreSwappable(selectedTile, tile) && testCrossCheck(selectedTile.GemType, tile.x, tile.y))
             {
                 StartCoroutine(ShiftTiles(selectedTile, tile));
             }
