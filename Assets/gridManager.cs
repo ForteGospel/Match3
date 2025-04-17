@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Events;
+using Unity.VisualScripting;
 
 
 public class gridManager : MonoBehaviour
@@ -25,9 +27,22 @@ public class gridManager : MonoBehaviour
     int score = 0;
     int comboMultiplier = 1;
 
+    [SerializeField] ScoreController scoreController;
+
+    [SerializeField] UnityEvent scoreEvent;
+
+    [SerializeField] roulleteController roullete;
+
+    [SerializeField] floatScriptable slidder;
+
+    [SerializeField] floatScriptable roulleteTurns;
+
+    AudioSource source;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        source = GetComponent<AudioSource>();
         initializeGrid();
         StartCoroutine(MatchLoop());
     }
@@ -53,8 +68,10 @@ public class gridManager : MonoBehaviour
 
     void AddScore(int amount)
     {
-        score += amount * comboMultiplier;
+        scoreController.score += amount * comboMultiplier;
         Debug.Log($"+{amount * comboMultiplier} points! Combo x{comboMultiplier}");
+
+        scoreEvent.Invoke();
     }
 
     public HashSet<TileController> CheckAllForMatch()
@@ -144,10 +161,14 @@ public class gridManager : MonoBehaviour
     IEnumerator DestroyAfterDelay(HashSet<TileController> matches)
     {
         yield return new WaitForSeconds(0.15f);
+        source.pitch = UnityEngine.Random.Range(0.5f, 1f);
+        source.Play();
 
         foreach (var tile in matches)
         {
             grid[tile.x, tile.y] = null;
+            if (tile.GemType == roullete.roulleteType)
+                slidder.value += 0.02f;
             Destroy(tile.gameObject);
         }
     }
@@ -267,6 +288,7 @@ public class gridManager : MonoBehaviour
             if (AreSwappable(selectedTile, tile) && testCrossCheck(selectedTile.GemType, tile.x, tile.y))
             {
                 StartCoroutine(ShiftTiles(selectedTile, tile));
+                roulleteTurns.value += 1f;
             }
             else
             {
