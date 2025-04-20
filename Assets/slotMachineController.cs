@@ -4,6 +4,7 @@ using UnityEngine;
 public class slotMachineController : MonoBehaviour
 {
     [SerializeField] Row[] rows;
+    [SerializeField] ParticleSystem[] particles;
 
     private bool resultsChecked = false;
     AudioSource source;
@@ -45,6 +46,7 @@ public class slotMachineController : MonoBehaviour
     {
         if (rows[0].stoppedSlot == rows[1].stoppedSlot && rows[0].stoppedSlot == rows[2].stoppedSlot)
         {
+            StartCoroutine(handleParticles());
             switch (rows[0].stoppedSlot)
             {
                 case "diamond":
@@ -70,5 +72,16 @@ public class slotMachineController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    IEnumerator handleParticles()
+    {
+        foreach (ParticleSystem particle in particles)
+            particle.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        foreach (ParticleSystem particle in particles)
+            particle.gameObject.SetActive(false);
     }
 }

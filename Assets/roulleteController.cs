@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class roulleteController : MonoBehaviour
 {
-    public float RotatePower;
+    public Vector2 RotatePower;
     public float StopPower;
 
     private Rigidbody2D rbody;
@@ -16,7 +16,7 @@ public class roulleteController : MonoBehaviour
 
     [SerializeField] floatScriptable roulleteTurns;
 
-
+    [SerializeField] ParticleSystem particle;
     private void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -48,6 +48,14 @@ public class roulleteController : MonoBehaviour
                 t = 0;
             }
         }
+
+        if (roulleteTurns.value >= 5f)
+        {
+            if (particle.isStopped)
+                particle.Play();
+        }
+        else
+            particle.Stop();
     }
 
 
@@ -58,7 +66,7 @@ public class roulleteController : MonoBehaviour
             roulleteTurns.value = 0f;
             audioSource.pitch = 1;
             audioSource.Play();
-            rbody.AddTorque(RotatePower);
+            rbody.AddTorque(Random.Range(RotatePower.x, RotatePower.y));
             inRotate = 1;
         }
     }

@@ -168,8 +168,12 @@ public class gridManager : MonoBehaviour
         {
             grid[tile.x, tile.y] = null;
             if (tile.GemType == roullete.roulleteType)
+            {
                 slidder.value += 0.02f;
-            Destroy(tile.gameObject);
+                tile.transform.DOJump(new Vector3(-5, -0.2f, 0), 2, 1, 0.5f).OnComplete(() => Destroy(tile.gameObject));
+            }
+            else
+                Destroy(tile.gameObject);
         }
     }
 

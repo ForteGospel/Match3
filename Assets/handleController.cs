@@ -5,6 +5,7 @@ public class handleController : MonoBehaviour
 {
     [SerializeField] slotMachineController Machine;
     [SerializeField] floatScriptable value;
+    [SerializeField] ParticleSystem particle;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,7 +15,14 @@ public class handleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (value.value >= 1f)
+        {
+            Debug.Log("greater than 1");
+            if (particle.isStopped)
+                particle.Play();
+        }
+        else
+            particle.Stop();
     }
 
     private void OnMouseDown()
