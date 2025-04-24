@@ -14,9 +14,9 @@ public class pressText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (roulleteTurns.value >= 5f)
+        if (roulleteTurns.value <= 0f)
             text.text = "Press \n To Roll";
         else
-            text.text = ((int)roulleteTurns.value) + "/5\n" + "to Roll";
+            text.text = "";
     }
 }

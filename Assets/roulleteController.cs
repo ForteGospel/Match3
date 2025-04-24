@@ -17,6 +17,8 @@ public class roulleteController : MonoBehaviour
     [SerializeField] floatScriptable roulleteTurns;
 
     [SerializeField] ParticleSystem particle;
+
+    [SerializeField] diceController dice;
     private void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -45,11 +47,12 @@ public class roulleteController : MonoBehaviour
 
                 inRotate = 0;
                 audioSource.Stop();
+                dice.isPlaying = false;
                 t = 0;
             }
         }
 
-        if (roulleteTurns.value >= 5f)
+        if (roulleteTurns.value <= 0f)
         {
             if (particle.isStopped)
                 particle.Play();
@@ -61,13 +64,14 @@ public class roulleteController : MonoBehaviour
 
     public void Rotete()
     {
-        if (inRotate == 0 && roulleteTurns.value >= 5f)
+        if (inRotate == 0 && roulleteTurns.value <= 0f)
         {
-            roulleteTurns.value = 0f;
+            roulleteTurns.value = Random.Range(1, 7);
             audioSource.pitch = 1;
             audioSource.Play();
             rbody.AddTorque(Random.Range(RotatePower.x, RotatePower.y));
             inRotate = 1;
+            StartCoroutine(dice.playDice());
         }
     }
 

@@ -378,6 +378,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4505367660026360, guid: 4d6d0b6c98562024e8896ae6e3312f74, type: 3}
   m_PrefabInstance: {fileID: 31802861}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &210379868 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198409283239815756, guid: 4d6d0b6c98562024e8896ae6e3312f74, type: 3}
+  m_PrefabInstance: {fileID: 31802861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &228006647
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +515,7 @@ MonoBehaviour:
   roulleteType: 0
   roulleteTurns: {fileID: 11400000, guid: b62f309cb3230ec4694a58d618d5e95c, type: 2}
   particle: {fileID: 1446695852}
+  dice: {fileID: 1115049318}
 --- !u!114 &228006652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11796,9 +11802,117 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1115049316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1115049317}
+  - component: {fileID: 1115049320}
+  - component: {fileID: 1115049319}
+  - component: {fileID: 1115049318}
+  m_Layer: 5
+  m_Name: Dice
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1115049317
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115049316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1637330692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -4.5}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1115049318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115049316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c36ba4450b17cc54ab0413235ddbd647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currNumber: 0
+  diceValue: {fileID: 11400000, guid: b62f309cb3230ec4694a58d618d5e95c, type: 2}
+  images:
+  - {fileID: -1962201580291615686, guid: be06d6075be8386418822fb8ca0ba672, type: 3}
+  - {fileID: 6552812209483224130, guid: 2c3e7f03c2a0e9a4a80b0f1f7c962d8a, type: 3}
+  - {fileID: -4770422562420140344, guid: a20456e9b33861f40a40ebd27b5d7b57, type: 3}
+  - {fileID: -6215506723545284189, guid: b7472fd9ed448bf4e813be18978bdef4, type: 3}
+  - {fileID: -1674614504560429765, guid: 440f2751e8312744cbb084549b9847bc, type: 3}
+  - {fileID: -154732530273669678, guid: ffd8adda2d02b214280a1a0d9a0778a0, type: 3}
+  isPlaying: 0
+--- !u!114 &1115049319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115049316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.88235295, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1962201580291615686, guid: be06d6075be8386418822fb8ca0ba672, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1115049320
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115049316}
+  m_CullTransparentMesh: 1
+--- !u!198 &1137317223 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198409283239815756, guid: 4d6d0b6c98562024e8896ae6e3312f74, type: 3}
+  m_PrefabInstance: {fileID: 1325059868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1183383740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4505367660026360, guid: 4d6d0b6c98562024e8896ae6e3312f74, type: 3}
+  m_PrefabInstance: {fileID: 1604465606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1183383742 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198409283239815756, guid: 4d6d0b6c98562024e8896ae6e3312f74, type: 3}
   m_PrefabInstance: {fileID: 1604465606}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1264758648
@@ -12239,8 +12353,11 @@ MonoBehaviour:
   - {fileID: 1877625663}
   - {fileID: 489539970}
   - {fileID: 939645215}
-  particles: []
-  scoreController: {fileID: 0}
+  particles:
+  - {fileID: 1183383742}
+  - {fileID: 210379868}
+  - {fileID: 1137317223}
+  scoreController: {fileID: 11400000, guid: 873fc0408e5c2ea4faa0627154307c9d, type: 2}
 --- !u!4 &1410828660
 Transform:
   m_ObjectHideFlags: 0
@@ -12865,7 +12982,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1115049317}
   m_Father: {fileID: 1475016733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24669527, y: 0.119226}

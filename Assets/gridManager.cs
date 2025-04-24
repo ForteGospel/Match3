@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Events;
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 
 
 public class gridManager : MonoBehaviour
@@ -120,24 +121,38 @@ public class gridManager : MonoBehaviour
         return possibleGems;
     }
 
-    bool testCrossCheck(TileType type, int i, int j)
+    bool testCrossCheck(TileController Source, int i, int j)
     {
         HashSet<TileController> possibleGems = new HashSet<TileController>();
+        possibleGems.Add(Source);
 
         //left Check
-        if (i != 0 && type == grid[i - 1, j].GemType)
+        if (i != 0 && Source.GemType == grid[i - 1, j].GemType)
             possibleGems.Add(grid[i - 1, j]);
         //right check
-        if (i != x - 1 && type == grid[i + 1, j].GemType)
+        if (i != x - 1 && Source.GemType == grid[i + 1, j].GemType)
             possibleGems.Add(grid[i + 1, j]);
         //down Check
-        if (j != 0 && type == grid[i, j - 1].GemType)
+        if (j != 0 && Source.GemType == grid[i, j - 1].GemType)
             possibleGems.Add(grid[i, j - 1]);
         //up Check
-        if (j != y - 1 && type == grid[i, j + 1].GemType)
+        if (j != y - 1 && Source.GemType == grid[i, j + 1].GemType)
             possibleGems.Add(grid[i, j + 1]);
-        
-        return possibleGems.Count >= 2;
+
+        HashSet<TileController> possibleGems2 = new HashSet<TileController>();
+        foreach (TileController controller in possibleGems)
+        {
+            if (controller.x != 0 && controller.GemType == grid[controller.x - 1, controller.y].GemType)
+                possibleGems2.Add(grid[controller.x - 1, controller.y]);
+            if (controller.x != x - 1 && controller.GemType == grid[controller.x + 1, controller.y].GemType)
+                possibleGems2.Add(grid[controller.x + 1, controller.y]);
+            if (controller.y != 0 && controller.GemType == grid[controller.x, controller.y - 1].GemType)
+                possibleGems2.Add(grid[controller.x, controller.y - 1]);
+            if (controller.y != y - 1 && controller.GemType == grid[controller.x, controller.y + 1].GemType)
+                possibleGems2.Add(grid[controller.x, controller.y + 1]);
+        }
+        Debug.Log(possibleGems.Count + " " + possibleGems2.Count);
+        return (possibleGems.Count + possibleGems2.Count) > 2;
     }
 
     void ClearMatches(HashSet<TileController> matches)
@@ -237,6 +252,8 @@ public class gridManager : MonoBehaviour
 
         comboMultiplier = 1;
 
+        isSwapping = true;
+
         while (true)
         {
             var matches = CheckAllForMatch();
@@ -262,6 +279,7 @@ public class gridManager : MonoBehaviour
             comboMultiplier++; // chain continues!
         }
 
+        isSwapping = false;
         comboMultiplier = 1;
     }
 
@@ -289,14 +307,15 @@ public class gridManager : MonoBehaviour
         }
         else
         {
-            if (AreSwappable(selectedTile, tile) && testCrossCheck(selectedTile.GemType, tile.x, tile.y))
+            if (AreSwappable(selectedTile, tile) && testCrossCheck(selectedTile, tile.x, tile.y))
             {
                 StartCoroutine(ShiftTiles(selectedTile, tile));
-                roulleteTurns.value += 1f;
+                roulleteTurns.value -= 1f;
+                resetColor();
             }
             else
             {
-                HighlightTile(selectedTile, false);
+                resetColor();
                 selectedTile = tile;
                 HighlightTile(tile, true);
             }
@@ -305,7 +324,20 @@ public class gridManager : MonoBehaviour
 
     void HighlightTile(TileController tile, bool highlight)
     {
+        resetColor();
         tile.GetComponent<SpriteRenderer>().color = highlight ? Color.cyan : Color.white;
+    }
+
+    void resetColor()
+    {
+        Debug.Log("reset Color");
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                grid[i, j].GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
     }
 
     bool AreAdjacent(TileController a, TileController b)
